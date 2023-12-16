@@ -2,7 +2,7 @@ name: Django CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   
 
 jobs:
@@ -26,5 +26,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        cd myShop
-        python manage.py runserver
+        python manage.py test
