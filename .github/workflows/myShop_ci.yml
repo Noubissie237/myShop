@@ -1,4 +1,4 @@
-name: CI
+name: Déclencher le pipeline Jenkins
 
 on:
   push:
@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger Jenkins pipeline
-        uses: technicalpickles/jenkins-webhook-action@v1
-        with:
-          url: 'http://127.0.0.1:8080/generic-webhook-trigger/invoke?token='
+      - name: Déclencher le pipeline Jenkins
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d '{"parameter": [{"name": "param1", "value": "valeur1"}, {"name": "param2", "value": "valeur2"}]}' http://localhost:8080/generic-webhook-trigger/invoke?token=myShop_token
