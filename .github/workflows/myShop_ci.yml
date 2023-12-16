@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Noubissie237/myShop.git']])
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'pip install --upgrade pip'
+                sh 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'cd myShop'
+            }
+        }
+    }
+
+    post {
+        always {
+            emailext (
+                subject: "Résultat des tests CI - ${currentBuild.fullDisplayName}",
+                body: """
+                Résultat des tests CI :
+                - Statut : ${currentBuild.currentResult}
+                - Numéro de build : ${env.BUILD_NUMBER}
+                - URL de build : ${env.BUILD_URL}
+                """,
+                to: 'wilfried.noubissie@facsciences-uy1.cm'
+            )
+        }
+    }
+}
