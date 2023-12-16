@@ -1,0 +1,49 @@
+<!-- Fichier dans lequel sera affiché tous nos produits -->
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-4">
+        <img class="thumbnail" src="{% static 'images/cart-img.png' %}" alt="images">
+        <div class="box-element product">
+            <h6>Produit</h6>
+            <hr>
+            <button class="btn btn-outline-secondary">
+                Ajouter au panier
+            </button>
+            <a href="#" class="btn btn-outline-success">Voir</a>
+            <h3 style="float: right;">10 XAF</h3>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <img class="thumbnail" src="{% static 'images/cart-img.png' %}" alt="images">
+        <div class="box-element product">
+            <h6>Produit</h6>
+            <hr>
+            <button class="btn btn-outline-secondary">
+                Ajouter au panier
+            </button>
+            <a href="#" class="btn btn-outline-success">Voir</a>
+            <h3 style="float: right;">10 XAF</h3>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <img class="thumbnail" src="{% static 'images/cart-img.png' %}" alt="images">
+        <div class="box-element product">
+            <h6>Produit</h6>
+            <hr>
+            <button class="btn btn-outline-secondary">
+                Ajouter au panier
+            </button>
+            <a href="#" class="btn btn-outline-success">Voir</a>
+            <h3 style="float: right;">10 XAF</h3>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

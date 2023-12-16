@@ -1,0 +1,53 @@
+<!-- Fichier dans lequel l'utilisateur pourra voir tout ce qu'il a mis dans le panier, et il peut ajouter, retirer, supprimer, etc -->
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box-element">
+            <a href="/" class="btn btn-outline-dark">&#x2190; Continuer vos achats</a>
+            <br><br>
+            <table class="table">
+                <tr>
+                    <th><h5>Articles: <strong>3</strong></h5></th>
+                    <th><h5>Total: <strong>100 XAF</strong></h5></th>
+                    <th>
+                        <a style="float: right; margin:5px" href="/commande" class="btn btn-success">
+                        Vérifier</a>
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+        <br>
+
+        <div class="box-element">
+            <div class="panier-row">
+                <div style="flex:2"></div>
+                <div style="flex:2"><strong>Article</strong></div>
+                <div style="flex:1"><strong>Prix</strong></div>
+                <div style="flex:1"><strong>Quantité</strong></div>
+                <div style="flex:1"><strong>Total</strong></div>
+            </div>
+            <div class="panier-row">
+                <div style="flex:2"><img class="row-image" src="{% static 'images/cart-img.png' %}" alt=""></div>
+                <div style="flex:2">Produit 1</div>
+                <div style="flex:1">100 XAF</div>
+                <div style="flex:1">
+                <p class="quantite">2</p>
+                <div class="quantite">
+                <img class="chg-quantite" src="{% static 'images/arrow-up.png' %}" alt="">
+                <img class="chg-quantite" src="{% static 'images/arrow-down.png' %}" alt="">
+                </div>
+                </div>
+                <div style="flex:1">200 XAF</div>
+                </div>
+                
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
