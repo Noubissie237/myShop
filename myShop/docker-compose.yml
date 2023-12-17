@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  web:
+    build: 
+      context: .
+    ports:
+      - "8000:8000"
+    command: ["sh", "./start.sh"]
+    volumes:
+      - .:/app
+    # env_file:
+    #   - .env
+    depends_on:
+      - postgres_db
+
+  postgres_db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postresql/data
+    # environment:
+    #   - POSTGRES_DB=${DB_NAME}
+    #   - POSTGRES_USER=${DB_USER}
+    #   - POSTGRES_PASSWORD=${DB_PASSWORD}
+
+volumes:
+  postgres_data:
