@@ -1,15 +1,16 @@
-language: python
+language: bash
 
-python:
-  - "3.9"
-
-install:
-  - pip install --upgrade pip
-  - pip install -r myShop/requirements.txt
+services:
+  - docker
 
 script:
-  - cd myShop
-  - python manage.py test
+  cd myShop
+
+before_install:
+  - docker-compose up -d
+
+after_script:
+  - docker-compose down
 
 notifications:
   email:
