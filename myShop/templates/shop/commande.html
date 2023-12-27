@@ -58,14 +58,17 @@
             <hr>
             <h3>Recapitulatif de la commande</h3>
             <hr>
+            {% for article in articles %}
             <div class="panier-row">
-                <div style="flex:2"><img class="row-image" src="{% static 'images/cart-img.png' %}" alt=""></div>
-                <div style="flex:2">Produit 1</div>
-                <div style="flex:1">$100</div>
-                <div style="flex:1">2</div>
+                <div style="flex:2"><img class="row-image" src="{{article.produit.imageUrl}}" alt=""></div>
+                <div style="flex:2">{{article.produit.name}}</div>
+                <div style="flex:1">{{article.produit.price}} XAF</div>
+                <div style="flex:1">{{article.quantite}}</div>
             </div>
-            <h5>Articles: 2</h5>
-            <h5>Total: 200 XAF</h5>
+            {% endfor %}
+
+            <h5>Articles: {{commande.get_panier_article}}</h5>
+            <h5>Total: {{commande.get_panier_total}} XAF</h5>
         </div>
         <div class="box-element">
         </div>
