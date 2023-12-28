@@ -3,6 +3,7 @@ from django.http import JsonResponse
 import json
 from .models import *
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 # Create your views here.
 def shop(request, *args, **kwargs):
@@ -127,3 +128,40 @@ def update_article(request, *args, **kwargs):
         commande_article.delete()
     
     return JsonResponse("panier modifié", safe=False)
+
+
+def traitement_commande(request, *args, **kwargs):
+
+    data = json.loads(request.body)
+
+    transaction_id = datetime.now().timestamp()
+
+    if request.user.is_authenticated:
+
+        client = request.user.client
+
+        commande, created = Commande.objects.get_or_create(client=client, complete=False)
+
+        total = float(data['form']['total'])
+
+        commande.transaction_id = transaction_id
+
+        if commande.get_panier_total == total:
+            commande.complete = True
+
+        commande.save()
+
+        if commande.produit_physique:
+            AddressChipping.objects.create(
+                client=client,
+                commande=commande,
+                addresse=data['shipping']['address'],
+                ville=data['shipping']['city'],
+                zipcode=data['shipping']['zipcode']
+            )
+        
+        else:
+            print('Utilisateur non authentifié')
+
+
+    return JsonResponse("Traitement complet", safe=False)
