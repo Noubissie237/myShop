@@ -64,6 +64,8 @@ class Commande(models.Model):
         artices = self.commandearticle_set.all()
         total = sum([article.quantite for article in artices])
         return total
+    
+
 
 
 class CommandeArticle(models.Model):

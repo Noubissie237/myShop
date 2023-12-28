@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.shop, name="shop page"),
     path('panier/', views.panier, name="panier page"),
     path('commande/', views.commande, name="commande page"),
+    path('update_article/', views.update_article, name="update-article")
 ]
