@@ -19,7 +19,7 @@
                         <input type="text" class="form-control" name="username" placeholder="Prénom..." required>
                     </div>
                     <div class="form-field">
-                        <input type="text" class="form-control" name="email" placeholder="Tel..." required>
+                        <input type="text" class="form-control" name="phone" placeholder="Tel..." required>
                     </div>
                     <div class="form-field">
                         <input type="email" class="form-control" name="email" placeholder="Email..." required>
@@ -128,7 +128,7 @@
             shippingUserInfo.zipcode = form.zipcode.value;
         }
 
-        if (user == "anonymousUser") {
+        if (user == "AnonymousUser") {
             userFormData.name = form.name.value;
             userFormData.username = form.username.value;
             userFormData.phone = form.phone.value;
@@ -153,6 +153,8 @@
         .then((data) => {
             console.log("data",data);
             alert("Traitement commande terminé");
+            panier = {}
+            document.cookie = "panier=" + JSON.stringify(panier) + ";domain=;path=/";
             window.location.href = "/";
         })
     }
