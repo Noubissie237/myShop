@@ -8,17 +8,22 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.cinetpay.com/seamless/main.js"></script>
     <title>MYSHOP</title>
 
-    <script type="text/javascript">
-        var user = "{{request.user}}";
+    <script defer type="text/javascript">
 
+        user = '{{ request.user }}'
+  
         function getToken(name) {
             var cookieValue = null;
             if (document.cookie && document.cookie != '') {
                 var cookies = document.cookie.split(';');
                 for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i].trim();
+                    var cookie = jQuery.trim(cookies[i]);
                     // Does this cookie string begin with the name we want?
                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -29,34 +34,38 @@
             return cookieValue;
         }
         var csrftoken = getToken('csrftoken');
-
-        // Cookies------------------------------------------------------------
-
-        function getCookie(name) {
-            var cookieArr = document.cookie.split(";");
-            // Loop through the array elements
-            for (var i = 0; i < cookieArr.length; i++) {
-                var cookiePair = cookieArr[i].split("=");
-                /* Removing whitespace at the beginning of the cookie name
-                and compare i with the given string */
-                if (name == cookiePair[0].trim()) {
-                    // Decode the cookie value and return
-                    return decodeURIComponent(cookiePair[1]);
-                }
+  
+  
+        function getCookie(name){
+          var cookieArr = document.cookie.split(";");
+  
+          // Loop through the array elements
+          for(var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+  
+            /* Removing whitespace at the beginning of the cookie name
+            and compare i with the given string */
+            if(name==cookiePair[0].trim()){
+              // Decode the cookie value and return
+              return decodeURIComponent(cookiePair[1]);
             }
-            // Return null if not found
-            return null;
+          }
+  
+          // Return null if not found
+          return null;
         }
+  
         var panier = JSON.parse(getCookie('panier'));
-
-        if (panier == undefined) {
-            panier = {};
-            console.log("panier cree");
-            document.cookie = "panier=" + JSON.stringify(panier) + ";domain=;path=/";
+  
+        if( panier == undefined){
+          panier = {};
+          console.log("panier cree");
+          document.cookie = "panier=" + JSON.stringify(panier) + ";domain=;path=/";
         }
+  
         console.log('panier', panier);
-
-    </script>
+  
+      </script>
 </head>
 
 <body>
