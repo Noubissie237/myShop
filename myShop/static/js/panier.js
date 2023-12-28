@@ -4,14 +4,44 @@ for (var i = 0; i < produitBtns.length; i++){
     produitBtns[i].addEventListener('click', function(){
         var produitId = this.dataset.produit;
         var action = this.dataset.action;
-        if (user === "AnonymousUser"){
-            console.log("Utilisateur anonyme ");
+        if (user == "AnonymousUser"){
+            addCookieArticle(produitId, action)
         }else{
             updateUserCommande(produitId, action);
         }
 
         
     })
+}
+
+
+function addCookieArticle(produitId, action){
+    console.log('utilisateur anonyme');
+
+    if(action == "add"){
+        if(panier[produitId] == undefined)
+        {
+            panier[produitId] = {"qte":1}
+        }
+        else
+        {
+            panier[produitId]["qte"] += 1;
+        }
+    }
+
+    if(action == "remove")
+    {
+        panier[produitId]["qte"] -= 1;
+        if (panier[produitId]['qte'] <= 0){
+            delete panier[produitId];
+        }
+    }
+
+    document.cookie = "panier=" + JSON.stringify(panier) + ";domain=;path=/";
+
+    console.log(panier);
+    location.reload();
+
 }
 
 

@@ -9,7 +9,7 @@ from datetime import datetime
 def shop(request, *args, **kwargs):
     """Vue des produits"""
 
-    produit = Produit.objects.all()
+    produits = Produit.objects.all()
 
     if request.user.is_authenticated:
 
@@ -21,17 +21,29 @@ def shop(request, *args, **kwargs):
 
     else:
 
-        articles = []
-
         commande = {
             'get_panier_total':0,
-            'get_panier_article':0
+            'get_panier_article':0,
+            'produit_physique': True,
         }
 
-        nombre_article = commande('get_panier_article')
+        nombre_article = commande['get_panier_article']
+
+        try:
+            panier = json.loads(request.COOKIES.get('panier'))
+            for obj in panier:
+
+                nombre_article += panier[obj]['qte']
+                
+        except:
+            panier = {}
+
+        print(panier)
+
+
 
     context = {
-        'produits' : produit,
+        'produits': produits,
         'nombre_article': nombre_article
     }
 
@@ -56,10 +68,49 @@ def panier(request, *args, **kwargs):
 
         commande = {
             'get_panier_total':0,
-            'get_panier_article':0
+            'get_panier_article':0,
+            'produit_physique': True,
         }
 
-        nombre_article = commande('get_panier_article')
+        nombre_article = commande['get_panier_article']
+
+        try:
+            panier = json.loads(request.COOKIES.get('panier'))
+            for obj in panier:
+
+                nombre_article += panier[obj]['qte']
+
+                produit = Produit.objects.get(id=obj)
+
+                total = produit.price * panier[obj]['qte']
+
+                commande['get_panier_article'] += panier[obj]['qte']
+
+                commande['get_panier_total'] += total
+
+                article = {
+                    'produit': {
+                        'pk': produit.id,
+                        'name': produit.name,
+                        'price': produit.price,
+                        'imageUrl': produit.imageUrl
+                    },
+                    'quantite': panier[obj]['qte'],
+                    'get_total': total
+
+                }
+
+                articles.append(article)
+
+                if produit.digital == False:
+                    commande['produit_physique'] = True
+                
+        except:
+            panier = {}
+
+        print(panier)
+
+
 
     context = {
         'articles' : articles, 
@@ -88,10 +139,49 @@ def commande(request, *args, **kwargs):
 
         commande = {
             'get_panier_total':0,
-            'get_panier_article':0
+            'get_panier_article':0,
+            'produit_physique': True,
         }
 
-        nombre_article = commande('get_panier_article')
+        nombre_article = commande['get_panier_article']
+
+        try:
+            panier = json.loads(request.COOKIES.get('panier'))
+            for obj in panier:
+
+                nombre_article += panier[obj]['qte']
+
+                produit = Produit.objects.get(id=obj)
+
+                total = produit.price * panier[obj]['qte']
+
+                commande['get_panier_article'] += panier[obj]['qte']
+
+                commande['get_panier_total'] += total
+
+                article = {
+                    'produit': {
+                        'pk': produit.id,
+                        'name': produit.name,
+                        'price': produit.price,
+                        'imageUrl': produit.imageUrl
+                    },
+                    'quantite': panier[obj]['qte'],
+                    'get_total': total
+
+                }
+
+                articles.append(article)
+
+                if produit.digital == False:
+                    commande['produit_physique'] = True
+                
+        except:
+            panier = {}
+
+        print(panier)
+
+
 
     context = {
         'articles' : articles, 
@@ -160,8 +250,8 @@ def traitement_commande(request, *args, **kwargs):
                 zipcode=data['shipping']['zipcode']
             )
         
-        else:
-            print('Utilisateur non authentifié')
+    else:
+        print('utilisateur non authentifié')
 
 
     return JsonResponse("Traitement complet", safe=False)
